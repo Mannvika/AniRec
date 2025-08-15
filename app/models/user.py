@@ -5,7 +5,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
-    firebase_uid = db.Column(db.Text, unique=True, nullable=False)
+    firebase_uid = db.Column(db.String(128), unique=True, nullable=False)
 
     ratings = db.relationship('Rating', backref='user', lazy=True, cascade="all, delete-orphan")
 
