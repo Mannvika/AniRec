@@ -6,7 +6,7 @@ class Anime(db.Model):
     mal_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False)
     synopsis = db.Column(db.Text, nullable=True)
-    score = db.Column(db.Real, nullable=True)
+    score = db.Column(db.Float, nullable=True)
     popularity = db.Column(db.Integer, nullable=True)
     genres = db.Column(db.ARRAY(db.Text), nullable=True)
     themes = db.Column(db.ARRAY(db.Text), nullable=True)
