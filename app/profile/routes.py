@@ -5,7 +5,7 @@ from app.models.user import User
 
 profile_bp = Blueprint('profile', __name__)
 
-@profile_bp.route('/users/sync', methods=['POST'])
+@profile_bp.route('/sync', methods=['POST'])
 @token_required 
 def sync_user():
     """

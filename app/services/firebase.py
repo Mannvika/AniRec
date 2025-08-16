@@ -1,10 +1,9 @@
 import firebase_admin
 from firebase_admin import credentials, auth
 from functools import wraps
-from flask import request, jsonify, g
+from flask import request, jsonify, g, make_response
 
-from app import db 
-from app.models import User
+
 
 try:
     cred = credentials.Certificate('firebase-credentials.json')
@@ -15,6 +14,7 @@ except Exception as e:
 
 
 def token_required(f):
+
     """
     A decorator to verify the Firebase ID token.
     - Extracts token from 'Authorization: Bearer <token>' header.
@@ -24,6 +24,13 @@ def token_required(f):
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        if request.method == 'OPTIONS':
+            response = make_response()
+            return response
+
+        from app import db 
+        from app.models.user import User
+
         auth_header = request.headers.get('Authorization')
         if not auth_header or not auth_header.startswith('Bearer '):
             return jsonify({"error": "Authorization header is missing or invalid"}), 401

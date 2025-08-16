@@ -2,3 +2,4 @@ password
 *.pyc
 firebase-credentials.json
 frontend/src/firebaseConfig.js
+app/config.py
