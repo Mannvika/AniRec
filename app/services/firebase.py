@@ -3,8 +3,6 @@ from firebase_admin import credentials, auth
 from functools import wraps
 from flask import request, jsonify, g, make_response
 
-
-
 try:
     cred = credentials.Certificate('firebase-credentials.json')
     firebase_admin.initialize_app(cred)
@@ -29,7 +27,7 @@ def token_required(f):
             return response
 
         from app import db 
-        from app.models.user import User
+        from app.models import User
 
         auth_header = request.headers.get('Authorization')
         if not auth_header or not auth_header.startswith('Bearer '):
@@ -60,8 +58,10 @@ def token_required(f):
         except auth.ExpiredIdTokenError:
             return jsonify({"error": "Token has expired"}), 401
         except auth.InvalidIdTokenError as e:
+            print(f"🔥 Detailed Firebase Token Error: {e}") 
             return jsonify({"error": "Token is invalid", "details": str(e)}), 401
         except Exception as e:
+            print(f"🔥 Unexpected error during token verification: {e}")
             return jsonify({"error": "An unexpected error occurred", "details": str(e)}), 500
 
         return f(*args, **kwargs)
