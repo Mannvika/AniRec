@@ -1,7 +1,10 @@
 import psycopg2
+import os
 
 def load_password():
-    with open('password', 'r') as file:
+    script_dir = os.path.dirname(os.path.abspath(__file__))    
+    password_path = os.path.join(script_dir, 'password')
+    with open(password_path, 'r') as file:
         password = file.read().strip()
     return password
 
