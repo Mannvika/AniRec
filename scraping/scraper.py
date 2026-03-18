@@ -20,7 +20,7 @@ def fetch_and_insert_anime_data(connection):
             response = jikan.top(type='anime', page=i)
             anime_list = response.get('data', [])
 
-            time.sleep(1.1)
+            time.sleep(3)
 
             for anime in anime_list:
                 mal_id = anime.get('mal_id')
@@ -68,7 +68,7 @@ def fetch_and_insert_review_data(connection):
             print(f"Fetching top anime list: page {i}...")
             response = jikan.top(type='anime', page=i)
             anime_list = response.get('data', [])
-            time.sleep(1.1)
+            time.sleep(3)
             for anime in anime_list:
                 mal_id = anime.get('mal_id')
                 if not mal_id:
@@ -78,7 +78,7 @@ def fetch_and_insert_review_data(connection):
                     reviews_response = jikan.anime(mal_id, 'reviews')
                     reviews = reviews_response.get('data', [])
                     
-                    time.sleep(0.5) 
+                    time.sleep(2) 
                     for review in reviews:
                         review_id = review.get('mal_id')
                         review_text = review.get('review')

@@ -24,8 +24,6 @@ def get_recommendations():
     """
     current_user_id = get_jwt_identity()
     
-    # In the future, you would have logic here to generate recommendations
-    # For now, we'll just return some dummy data.
     dummy_recommendations = [
         {"anime_id": 1, "title": "Cowboy Bebop", "score": 9.5},
         {"anime_id": 2, "title": "Attack on Titan", "score": 9.2},

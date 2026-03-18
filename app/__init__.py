@@ -23,6 +23,9 @@ def create_app():
     from .reccomender.routes import recommender_bp
     app.register_blueprint(recommender_bp, url_prefix='/recommender')
 
+    from .ratings.routes import ratings_bp
+    app.register_blueprint(ratings_bp, url_prefix='/ratings')
+
     @app.route('/health')
     def health_check():
         return {'status': 'ok'}, 200

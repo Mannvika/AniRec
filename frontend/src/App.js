@@ -107,7 +107,7 @@ function App() {
       const token = await user.getIdToken();
       
       // 2. Make the request to your Flask backend
-      const response = await fetch('http://127.0.0.1:5000/recommend', { // Update with your backend URL
+      const response = await fetch('http://127.0.0.1:5000/recommend', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -138,7 +138,6 @@ function App() {
         <div>
           <h2>Login / Sign Up</h2>
           <form>
-            {/* Add Username Input Field */}
             <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" /><br /><br />
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" /><br /><br />
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" /><br /><br />
