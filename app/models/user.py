@@ -11,5 +11,11 @@ class User(db.Model):
     
     __table_args__ = {'schema': 'anime_data'}
 
-    def __init__(self, firebase_uid):
+    def __init__(self, firebase_uid, username=None):
         self.firebase_uid = firebase_uid
+        # For auto-created users during login, use a temporary username
+        if username:
+            self.username = username
+        else:
+            # Generate a temporary username based on firebase_uid
+            self.username = f"user_{firebase_uid[:8]}"

@@ -1,14 +1,19 @@
 from flask import Blueprint, jsonify, g, request
 from ..services.firebase import token_required
-from ..models import Rating
+from ..models.anime import Rating
+from ..models.user import User
 from ..extensions import db
 
 ratings_bp = Blueprint('ratings_bp', __name__)
 
-@ratings_bp.route('/ratings/anime/<int:anime_id>', methods=['POST'])
+@ratings_bp.route('/anime/<int:anime_id>', methods=['POST', 'OPTIONS'])
 @token_required
 def submit_or_update_rating(anime_id):
-    user = g.current_user_id
+    # Handle OPTIONS preflight request
+    if request.method == 'OPTIONS':
+        return '', 200
+        
+    user = g.current_user.id
 
     score = request.json.get('score')
     if score is None:
@@ -32,20 +37,28 @@ def submit_or_update_rating(anime_id):
     db.session.commit()
     return jsonify({"message": f"Rating {action}"}), 200
 
-@ratings_bp.route('/ratings/anime/<int:anime_id>', methods=['GET'])
+@ratings_bp.route('/anime/<int:anime_id>', methods=['GET', 'OPTIONS'])
 @token_required
 def get_ratings(anime_id):
-    user = g.current_user_id
+    # Handle OPTIONS preflight request
+    if request.method == 'OPTIONS':
+        return '', 200
+        
+    user = g.current_user.id
     rating = Rating.query.filter_by(user_id=user, anime_id=anime_id).first()
     if not rating:
         return jsonify({"message": "Rating not found"}), 404
 
     return jsonify({"message": f"Rating for anime {anime_id} is {rating.score} for user {user}"}), 200
 
-@ratings_bp.route('/ratings/delete/<int:anime_id>', methods=['DELETE'])
+@ratings_bp.route('/ratings/delete/<int:anime_id>', methods=['DELETE', 'OPTIONS'])
 @token_required
 def delete_rating(anime_id):
-    user = g.current_user_id
+    # Handle OPTIONS preflight request
+    if request.method == 'OPTIONS':
+        return '', 200
+        
+    user = g.current_user.id
     rating = Rating.query.filter_by(user_id=user, anime_id=anime_id).first()
     if not rating:
         return jsonify({"message": "Rating not found"}), 404
